@@ -19,7 +19,9 @@ services:
        - DD_LOG_LEVEL=TRACE
        - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
        - DD_AC_EXCLUDE=name:collector
-       - DD_OTLP_HTTP_PORT=4318
+       - DD_OTLP_CONFIG_RECEIVER_PROTOCOLS_HTTP_ENDPOINT=0.0.0.0:4318
+     expose:
+       - "4318"
 
    # Our Phoenix container.
    phoenix:
@@ -36,7 +38,7 @@ services:
        - PGPORT=5432
          # Hostname of our Postgres container.
        - PGHOST=db
-         #OTEL_EXPORTER_OTLP_ENDPOINT: http://dd-agent:4318
+       - OTEL_EXPORTER_OTLP_ENDPOINT=http://dd-agent:4318
       ports:
          # Mapping the port to make the Phoenix app accessible outside of the container.
          - '4000:4000'
